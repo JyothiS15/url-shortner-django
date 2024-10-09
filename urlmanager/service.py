@@ -42,7 +42,13 @@ def fetch_shorten_url(url: str) -> str:
 
     created = False
     # generalize the domain name of the url
-    domain = extract(url).domain
+    extract_domain = extract(url)
+    domain = extract_domain.subdomain + "." + extract_domain.domain
+
+    if "www." in domain:
+        domain = domain.replace("www.", "")
+    elif domain[0] == ".":
+        domain = domain[1:]
 
     # match url extensions
     domain = domain + url.split(domain)[-1]
